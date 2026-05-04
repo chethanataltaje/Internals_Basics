@@ -1,0 +1,12 @@
+{
+    "search_type": "random",
+    "n_folds": 3,
+    "total_trials": 10,
+    "best_params": {
+        "solver": "auto",
+        "alpha": 0.01
+    },
+    "best_mae": 1.322743012346995,
+    "best_cv_mae": 1.4446922957912414,
+    "parent_run_name": "tuning-steelforge"
+}
