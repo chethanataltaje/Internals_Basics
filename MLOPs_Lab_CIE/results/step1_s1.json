@@ -1,0 +1,22 @@
+{
+    "experiment_name": "steelforge-production-hours",
+    "models": [
+        {
+            "name": "Ridge",
+            "mae": 1.3829003988524238,
+            "rmse": 1.9384103491269442,
+            "r2": 0.8162596313606598,
+            "mape": 14.318268895540587
+        },
+        {
+            "name": "RandomForest",
+            "mae": 2.5884600000000035,
+            "rmse": 2.8156861668161866,
+            "r2": 0.6123126431806112,
+            "mape": 22.091723451731916
+        }
+    ],
+    "best_model": "Ridge",
+    "best_metric_name": "mae",
+    "best_metric_value": 1.3829003988524238
+}
