@@ -1,0 +1,2 @@
+{"timestamp": "2026-05-04 10:01:14.939334", "input": {"batch_size_tons": 17.2, "machine_count": 4, "alloy_grade": 2, "shift_type": 2}, "prediction": 9.568787619047617, "endpoint": "/score"}
+{"timestamp": "2026-05-04 10:05:38.376095", "input": {"batch_size_tons": 17.2, "machine_count": 4, "alloy_grade": 2, "shift_type": 2}, "prediction": 9.568787619047617, "endpoint": "/score"}

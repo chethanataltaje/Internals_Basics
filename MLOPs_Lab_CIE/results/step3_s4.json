@@ -1,0 +1,16 @@
+{
+    "health_endpoint": "/heartbeat",
+    "predict_endpoint": "/score",
+    "port": 9000,
+    "health_response": {
+        "status": "healthy",
+        "model_loaded": true
+    },
+    "test_input": {
+        "batch_size_tons": 17.2,
+        "machine_count": 4,
+        "alloy_grade": 2,
+        "shift_type": 2
+    },
+    "prediction": 9.568787619047617
+}
