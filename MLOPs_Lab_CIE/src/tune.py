@@ -4,9 +4,10 @@ import json
 import os
 import mlflow
 import mlflow.sklearn
+import joblib
 
 from sklearn.model_selection import train_test_split, RandomizedSearchCV
-from sklearn.linear_model import Ridge
+from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import mean_absolute_error
 
 # ----------------------------
@@ -24,28 +25,32 @@ df = pd.read_csv(DATA_PATH)
 X = df.drop("production_hours", axis=1)
 y = df["production_hours"]
 
+# ----------------------------
+# SPLIT (MANDATORY)
+# ----------------------------
 X_train, X_test, y_train, y_test = train_test_split(
     X, y, test_size=0.2, random_state=42
 )
 
 # ----------------------------
-# PARAM GRID (Ridge tuning)
+# PARAM GRID (EXACT FROM QUESTION)
 # ----------------------------
 param_dist = {
-    "alpha": [0.01, 0.1, 1, 10, 100],
-    "solver": ["auto", "svd", "cholesky", "lsqr"]
+    "n_estimators": [100, 200, 300],
+    "max_depth": [3, 7, 15],
+    "min_samples_split": [2, 4]
 }
 
 # ----------------------------
 # MODEL
 # ----------------------------
-model = Ridge()
+model = RandomForestRegressor(random_state=42)
 
 # ----------------------------
-# RANDOM SEARCH
+# RANDOM SEARCH (MANDATORY)
 # ----------------------------
 search = RandomizedSearchCV(
-    model,
+    estimator=model,
     param_distributions=param_dist,
     n_iter=10,
     scoring="neg_mean_absolute_error",
@@ -55,21 +60,23 @@ search = RandomizedSearchCV(
 )
 
 # ----------------------------
-# MLflow setup
+# MLflow
 # ----------------------------
 mlflow.set_experiment(EXPERIMENT_NAME)
 
 with mlflow.start_run(run_name="tuning-steelforge"):
 
+    # Fit search
     search.fit(X_train, y_train)
 
-    # Nested runs for each trial
+    # Log nested runs (each trial)
     for i, params in enumerate(search.cv_results_["params"]):
         with mlflow.start_run(run_name=f"trial_{i}", nested=True):
             mlflow.log_params(params)
             mae = -search.cv_results_["mean_test_score"][i]
             mlflow.log_metric("mae", mae)
 
+    # Best results
     best_params = search.best_params_
     best_cv_mae = -search.best_score_
 
@@ -80,7 +87,6 @@ with mlflow.start_run(run_name="tuning-steelforge"):
 
     # Save tuned model
     os.makedirs("../models", exist_ok=True)
-    import joblib
     joblib.dump(best_model, "../models/best_tuned_model.pkl")
 
 # ----------------------------

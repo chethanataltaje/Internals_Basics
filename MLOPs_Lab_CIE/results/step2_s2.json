@@ -3,10 +3,11 @@
     "n_folds": 3,
     "total_trials": 10,
     "best_params": {
-        "solver": "auto",
-        "alpha": 0.01
+        "n_estimators": 100,
+        "min_samples_split": 4,
+        "max_depth": 15
     },
-    "best_mae": 1.322743012346995,
-    "best_cv_mae": 1.4446922957912414,
+    "best_mae": 2.769507380952382,
+    "best_cv_mae": 2.907869548374906,
     "parent_run_name": "tuning-steelforge"
 }
